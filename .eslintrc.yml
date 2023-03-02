@@ -15,7 +15,6 @@ parserOptions:
   ecmaVersion: latest
 
 rules:
-  no-param-reassing: 0
   no-console: 0
   import/extensions: 
     - error
