@@ -31,5 +31,5 @@ test('gendiff', () => {
 + verbose: true
 }`,
   );
-  expect(genDiff('__fixtures__/file1.md', '__fixtures__/file2.md')).toThrow();
+  expect(() => genDiff('__fixtures__/file1.md', '__fixtures__/file2.md')).toThrow();
 });
