@@ -10,10 +10,10 @@ const diff = (tree) => {
           newNode[`+ ${newNode.name}`] = newNode.value;
           break;
         case 'nested':
-          newNode[newNode.name] = diff(newNode.value);
+          newNode[`  ${newNode.name}`] = diff(newNode.value);
           break;
         case 'unchanged':
-          newNode[newNode.name] = newNode.value;
+          newNode[`  ${newNode.name}`] = newNode.value;
           break;
         default:
           newNode[`- ${newNode.name}`] = newNode.value1;
@@ -22,6 +22,6 @@ const diff = (tree) => {
       }
       return _.omit(newNode, ['name', 'value', 'status', 'value1', 'value2']);
     });
-    return result;
+    return _.defaults(...result);
   };
 export default diff;
