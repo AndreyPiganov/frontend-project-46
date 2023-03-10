@@ -4,23 +4,23 @@ const diff = (tree) => {
       const newNode = _.cloneDeep(node);
       switch (newNode.status) {
         case 'deleted':
-          newNode[`- ${newNode.key}`] = newNode.value;
+          newNode[`- ${newNode.name}`] = newNode.value;
           break;
         case 'added':
-          newNode[`+ ${newNode.key}`] = newNode.value;
+          newNode[`+ ${newNode.name}`] = newNode.value;
           break;
         case 'nested':
-          newNode[newNode.key] = diff(newNode.value);
+          newNode[newNode.name] = diff(newNode.value);
           break;
         case 'unchanged':
-          newNode[newNode.key] = newNode.value;
+          newNode[newNode.name] = newNode.value;
           break;
         default:
-          newNode[`- ${newNode.key}`] = newNode.value1;
-          newNode[`+ ${newNode.key}`] = newNode.value2;
+          newNode[`- ${newNode.name}`] = newNode.value1;
+          newNode[`+ ${newNode.name}`] = newNode.value2;
           break;
       }
-      return _.omit(newNode, ['key', 'value', 'status', 'value1', 'value2']);
+      return _.omit(newNode, ['name', 'value', 'status', 'value1', 'value2']);
     });
     return result;
   };
