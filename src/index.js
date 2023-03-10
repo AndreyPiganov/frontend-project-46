@@ -1,5 +1,5 @@
+import _ from 'lodash';
 import parse from './parsers.js';
-import _ from  'lodash';
 import { getFormat, readFile } from './utils.js';
 import buildTree from './buildTree.js';
 
@@ -13,30 +13,31 @@ const genDiff = (filePath1, filePath2, format = 'stylish') => {
 
   const tree = buildTree(obj1, obj2);
   const testCase = (tree) => {
-  const result = tree.flatMap((node) => {
-    switch(node.status){
-      case 'deleted':
-        node[`- ${node['key']}`] = node['value'];
-        break;
-      case 'added':
-        node[`+ ${node['key']}`] = node['value'];
-        break;
-      case 'nested':
-        node[node['key']] = testCase(node['value']);
-        break;
-      case 'unchanged':
-        node[node['key']] = node['value'];
-        break;
-      default:
-        node[`- ${node['key']}`] = node['value1'];
-        node[`+ ${node['key']}`] = node['value2'];
-        break;
-    }
-    return _.omit(node, ['key' , 'value' , 'status', 'value1', 'value2']);
-  })
-  return result;
-}
-console.log(JSON.stringify(testCase(tree)))
+    const result = tree.flatMap((node) => {
+      const newNode = _.cloneDeep(node);
+      switch (newNode.status) {
+        case 'deleted':
+          newNode[`- ${newNode.key}`] = newNode.value;
+          break;
+        case 'added':
+          newNode[`+ ${newNode.key}`] = newNode.value;
+          break;
+        case 'nested':
+          newNode[newNode.key] = testCase(newNode.value);
+          break;
+        case 'unchanged':
+          newNode[newNode.key] = newNode.value;
+          break;
+        default:
+          newNode[`- ${newNode.key}`] = newNode.value1;
+          newNode[`+ ${newNode.key}`] = newNode.value2;
+          break;
+      }
+      return _.omit(newNode, ['key', 'value', 'status', 'value1', 'value2']);
+    });
+    return result;
+  };
+  console.log(JSON.stringify(testCase(tree)));
   return testCase(tree);
 };
 export default genDiff;
