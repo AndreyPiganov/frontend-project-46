@@ -17,25 +17,26 @@ const genDiff = (filePath1, filePath2, format = 'stylish') => {
     switch(node.status){
       case 'deleted':
         node[`- ${node['key']}`] = node['value'];
-        return _.omit(node, ['key' , 'value', 'status']);
+        break;
       case 'added':
         node[`+ ${node['key']}`] = node['value'];
-        return _.omit(node, ['key' , 'value' , 'status']);
+        break;
       case 'nested':
         node[node['key']] = testCase(node['value']);
-        return _.omit(node, ['key' , 'value' , 'status']);
+        break;
       case 'unchanged':
         node[node['key']] = node['value'];
-        return _.omit(node, ['key' , 'value' , 'status']);
+        break;
       default:
         node[`- ${node['key']}`] = node['value1'];
         node[`+ ${node['key']}`] = node['value2'];
-        return _.omit(node, ['key' , 'value' , 'status', 'value1', 'value2']);
+        break;
     }
+    return _.omit(node, ['key' , 'value' , 'status', 'value1', 'value2']);
   })
-  console.log(JSON.stringify(result));
   return result;
 }
+console.log(JSON.stringify(testCase(tree)))
   return testCase(tree);
 };
 export default genDiff;
