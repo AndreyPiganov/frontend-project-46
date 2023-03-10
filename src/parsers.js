@@ -9,7 +9,7 @@ const parse = (data, format) => {
     case 'yaml':
       return YAML.load(data);
     default:
-      throw new Error('Invalid format');
+      throw new Error(`Invalid format: ${format}`);
   }
 };
 export default parse;
