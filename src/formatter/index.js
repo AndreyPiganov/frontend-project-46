@@ -18,6 +18,7 @@ const diff = (tree) => {
         default:
           newNode[`- ${newNode.key}`] = newNode.value1;
           newNode[`+ ${newNode.key}`] = newNode.value2;
+          break;
       }
       return _.omit(newNode, ['key', 'value', 'status', 'value1', 'value2']);
     });
