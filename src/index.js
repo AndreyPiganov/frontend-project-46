@@ -13,7 +13,7 @@ const stringify = (value, replacer = ' ' , spacesCount = 1) =>{
     const currentIntendant = replacer.repeat(intendantSize);
     const bracketsIntendant = replacer.repeat(intendantSize - spacesCount); 
     const lines = Object.entries(nodeValue).map(([key,val]) => `${currentIntendant}${key}: ${iter(val,depth + 1)}`);
-    const result = ['{' ,...lines, `${bracketsIntendant}}`,].join('\n');
+    const result = ['{', ...lines, `${bracketsIntendant}}`,].join('\n');
     return result;
   }
     return iter(value,1);
@@ -27,8 +27,6 @@ const genDiff = (filePath1, filePath2, format = 'stylish') => {
   const obj2 = parse(file2, getFormat(filePath2));
 
   const tree = buildTree(obj1, obj2);
-
-  console.log(stringify(diff(tree), ' ' , 4));
-  return diff(tree);
+  return stringify(diff(tree), ' ', 5);
 };
 export default genDiff;
